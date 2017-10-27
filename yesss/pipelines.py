@@ -6,7 +6,7 @@
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 import os
 
-from scrapy.contrib.pipeline.media import MediaPipeline
+from scrapy.pipelines.media import MediaPipeline
 from scrapy.exceptions import DropItem
 from scrapy.http import Request
 
