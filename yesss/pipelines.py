@@ -15,9 +15,9 @@ class YesssPipeline(MediaPipeline):
     def get_media_requests(self, item, info):
         """Returns the media requests to download"""
         username = self.spiderinfo.spider.username
+        year=item['date'].strftime('%Y')
         base_location = self.spiderinfo.spider.settings.get('BASE_LOCATION', '/tmp/yesss/')
-        location_template = base_location + '{phonenumber}/{year}/{{file}}'
-        location_template = location_template.format(phonenumber=username, year=item['date'].strftime('%Y'))
+        location_template = f'{base_location}/{username}/{year}/{{file}}'
 
         bill_pdf_file = location_template.format(file='{}-rechnung.pdf'.format(item['date_formatted']))
         if os.path.exists(bill_pdf_file):

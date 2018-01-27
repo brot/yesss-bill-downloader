@@ -5,15 +5,14 @@ from datetime import datetime
 from yesss.items import YesssBillItem
 
 
-class YesssBillsSpider(scrapy.Spider):
-    name = "yesss-bills"
-    allowed_domains = ["yesss.at"]
-    start_urls = (
-        'https://www.yesss.at/',
-    )
+class AidaBillsSpider(scrapy.Spider):
+    name = ''
+    allowed_domains = []
+    start_urls = ()
+    request_after_login_url = ''
 
     def __init__(self, username=None, password=None, *args, **kwargs):
-        super(YesssBillsSpider, self).__init__(*args, **kwargs)
+        super(AidaBillsSpider, self).__init__(*args, **kwargs)
         self.username = username
         self.password = password
 
@@ -33,8 +32,7 @@ class YesssBillsSpider(scrapy.Spider):
         )
 
     def logged_in(self, response):
-        return scrapy.Request("https://www.yesss.at/kontomanager.at/rechnungen.php",
-                              callback=self.parse_bills)
+        return scrapy.Request(self.request_after_login_url, callback=self.parse_bills)
 
     def parse_bills(self, response):
         for row in response.xpath('//tbody/tr'):
@@ -54,3 +52,26 @@ class YesssBillsSpider(scrapy.Spider):
                 bill_item['egn_csv'] = egn[1]
 
             yield bill_item
+
+
+class SimfonieBillsSpider(AidaBillsSpider):
+    name = "simfonie-bills"
+    allowed_domains = [
+        "kontomanager.at",
+        "simfonie.at",
+    ]
+    start_urls = (
+        'https://simfonie.kontomanager.at/',
+    )
+    request_after_login_url = 'https://simfonie.kontomanager.at/rechnungen.php'
+
+
+class YesssBillsSpider(AidaBillsSpider):
+    name = "yesss-bills"
+    allowed_domains = [
+        "yesss.at",
+    ]
+    start_urls = (
+        'https://www.yesss.at/',
+    )
+    request_after_login_url = 'https://www.yesss.at/kontomanager.at/rechnungen.php'
