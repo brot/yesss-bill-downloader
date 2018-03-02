@@ -73,7 +73,6 @@ def run_spider(credential_list, output_dir):
         print(f'Add "{credential["title"]}" with number {credential["username"]} for crawling')
         process.crawl(credential['spider_name'], username=credential['username'],
                       password=credential['password'])
-        break
 
     process.start()
 
