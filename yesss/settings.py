@@ -18,6 +18,6 @@ ITEM_PIPELINES = {
 }
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'yesss (+http://www.yourdomain.com)'
+# USER_AGENT = 'yesss (+http://www.yourdomain.com)'
 
 BASE_LOCATION = '/tmp/yesss/'
