@@ -1,13 +1,16 @@
 import argparse
 import getpass
 from pathlib import Path
+import os
 
 from pykeepass import PyKeePass
 
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 
-DEFAULT_PATH = Path('~/CloudStorage/nextcloud/Ablage')
+
+KEYBASE_FILEPATH = os.environ.get('KEYBASE_FILEPATH', '~/keys.kdbx')
+OUTPUT_PATH = os.environ.get('OUTPUT_PATH', '/tmp/yesss')
 
 KEEPASS_SEARCH_CRITERIA = [
     {
@@ -35,11 +38,11 @@ def parse_args():
     """Parse command line arguments."""
     parser = argparse.ArgumentParser()
     parser.add_argument('--keyfile', dest='keyfile', action='store', required=False,
-                        default=str(DEFAULT_PATH / 'keys.kdbx'),
-                        help='Path of your keepass file.')
+                        default=KEYBASE_FILEPATH,
+                        help='Path of your keepass file. (Default: %(default)s)')
     parser.add_argument('--output', dest='output_dir', action='store', required=False,
-                        default=str(DEFAULT_PATH / 'yesss'),
-                        help='Path to the output directory.')
+                        default=OUTPUT_PATH,
+                        help='Path to the output directory. (Default: %(default)s)')
     args = parser.parse_args()
 
     keyfile = Path(args.keyfile).expanduser()
