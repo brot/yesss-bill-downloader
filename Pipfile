@@ -7,8 +7,8 @@ name = "pypi"
 
 [packages]
 
-scrapy = "*"
-pykeepass = "*"
+scrapy = "==1.5.1"
+pykeepass = "==2.8.2"
 
 
 [dev-packages]
