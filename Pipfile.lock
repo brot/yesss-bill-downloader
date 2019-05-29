@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "7a6f25e2f1fa5564e5245f9eda37846e1ba85dd7fa26688329bff79ddc3dd926"
+            "sha256": "290e16e70e2cb5b52a5d31046acef353e09735f32684310862323433d13eaf64"
         },
         "pipfile-spec": 6,
         "requires": {},
@@ -135,6 +135,12 @@
             ],
             "version": "==1.0.3"
         },
+        "future": {
+            "hashes": [
+                "sha256:67045236dcfd6816dc439556d009594abf643e5eb48992e36beac09c2ca659b8"
+            ],
+            "version": "==0.17.1"
+        },
         "hyperlink": {
             "hashes": [
                 "sha256:4288e34705da077fada1111a24a0aa08bb1e76699c9ce49876af722441845654",
@@ -263,10 +269,10 @@
         },
         "pykeepass": {
             "hashes": [
-                "sha256:20b53d10e9c319301929f029579623562c815c4b4c787bf96d4bd7680581d6cd"
+                "sha256:2c9e2ddb03ee696ed8aa72c2cddfb81280614864e003226141d68b975aa56f6f"
             ],
             "index": "pypi",
-            "version": "==3.0.2"
+            "version": "==3.0.3"
         },
         "pyopenssl": {
             "hashes": [
@@ -291,11 +297,11 @@
         },
         "scrapy": {
             "hashes": [
-                "sha256:5a398bf6818f87dcc817c919408a195f19ba46414ae12f259119336cfa862bb6",
-                "sha256:5b9621731e26b0d195ca3e25ab34d559f45b0b906c0a0cc359199f1b6b612184"
+                "sha256:4ec03552c9aed1e82a376488150e904e0213bdee3ca140225105e9b03d0de204",
+                "sha256:558dfd10ac53cb324ecd7eefd3eac412161c7507c082b01b0bcd2c6e2e9f0766"
             ],
             "index": "pypi",
-            "version": "==1.5.1"
+            "version": "==1.6.0"
         },
         "service-identity": {
             "hashes": [
