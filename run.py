@@ -10,17 +10,18 @@ from scrapy.utils.project import get_project_settings
 
 
 KEYBASE_FILEPATH = os.environ.get('KEYBASE_FILEPATH', '~/keys.kdbx')
+KEYBASE_SEARCH_PATH = os.environ.get('KEYBASE_SEARCH_PATH', 'Allgemein/')
 OUTPUT_PATH = os.environ.get('OUTPUT_PATH', '/tmp/yesss')
 
 KEEPASS_SEARCH_CRITERIA = [
     {
         'spider_name': 'yesss-bills',
-        'keepass_search_path': 'Allgemein/',
+        'keepass_search_path': KEYBASE_SEARCH_PATH,
         'url': 'https://www.yesss.at/kontomanager.php',
     },
     {
         'spider_name': 'simfonie-bills',
-        'keepass_search_path': 'Allgemein/',
+        'keepass_search_path': KEYBASE_SEARCH_PATH,
         'url': 'https://simfonie.kontomanager.at/',
     }
 ]
