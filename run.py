@@ -1,5 +1,6 @@
 import argparse
 import getpass
+import logging
 from pathlib import Path
 import os
 import sys
@@ -28,6 +29,8 @@ KEEPASS_SEARCH_CRITERIA = [
     }
 ]
 
+logger = None
+
 
 class Password(argparse.Action):
     def __call__(self, parser, namespace, values, option_string):
@@ -46,20 +49,22 @@ def parse_args():
     parser.add_argument('--output', dest='output_dir', action='store', required=False,
                         default=OUTPUT_PATH,
                         help='Path to the output directory. (Default: %(default)s)')
+    parser.add_argument('-v', '--verbose', dest='verbose', action='store_true', default=False)
     args = parser.parse_args()
 
     keyfile = Path(args.keyfile).expanduser()
     if not keyfile.exists():
         parser.error(f'Keyfile "{keyfile}" does not exists.')
 
-    return keyfile, args.output_dir
+    args.keyfile = keyfile
+    return args
 
 
 def get_credentials(keyfile, password):
     try:
         keepass = PyKeePass(keyfile, password=password)
     except CredentialsIntegrityError as except_inst:
-        print(except_inst)
+        logger.debug(except_inst)
         sys.exit(1)
 
     return [
@@ -80,7 +85,7 @@ def run_spider(credential_list, output_dir):
     process = CrawlerProcess(project_settings)
 
     for credential in credential_list:
-        print(f'Add "{credential["title"]}" with number {credential["username"]} for crawling')
+        logger.info(f'Add "{credential["title"]}" with number {credential["username"]} for crawling')
         process.crawl(credential['spider_name'], username=credential['username'],
                       password=credential['password'])
 
@@ -88,8 +93,13 @@ def run_spider(credential_list, output_dir):
 
 
 if __name__ == '__main__':
-    keyfile, output_dir = parse_args()
+    args = parse_args()
+
+    logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO)
+    logger = logging.getLogger('yesss-bills')
+    logger.debug(args)
+
     password = getpass.getpass()
 
-    credential_list = get_credentials(keyfile, password)
-    run_spider(credential_list, output_dir)
+    credential_list = get_credentials(args.keyfile, password)
+    run_spider(credential_list, args.output_dir)
