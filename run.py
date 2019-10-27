@@ -2,8 +2,10 @@ import argparse
 import getpass
 from pathlib import Path
 import os
+import sys
 
 from pykeepass import PyKeePass
+from pykeepass.exceptions import CredentialsIntegrityError
 
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
@@ -54,7 +56,11 @@ def parse_args():
 
 
 def get_credentials(keyfile, password):
-    keepass = PyKeePass(keyfile, password=password)
+    try:
+        keepass = PyKeePass(keyfile, password=password)
+    except CredentialsIntegrityError as except_inst:
+        print(except_inst)
+        sys.exit(1)
 
     return [
         {
