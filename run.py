@@ -67,16 +67,18 @@ def get_credentials(keyfile, password):
         logger.debug(except_inst)
         sys.exit(1)
 
-    return [
-        {
-            'spider_name': criteria['spider_name'],
-            'title': credentials.title,
-            'username': credentials.username,
-            'password': credentials.password,
-        }
-        for criteria in KEEPASS_SEARCH_CRITERIA
-        for credentials in keepass.find_entries(url=criteria['url'],
-                                                path=criteria['keepass_search_path'])]
+    entries = []
+    for criteria in KEEPASS_SEARCH_CRITERIA:
+        logger.debug('Check criteria: %s', criteria)
+        group = keepass.find_groups(path=criteria['keepass_search_path'])
+        for credentials in keepass.find_entries(url=criteria['url'], group=group):
+            entries.append({
+                'spider_name': criteria['spider_name'],
+                'title': credentials.title,
+                'username': credentials.username,
+                'password': credentials.password,
+            })
+    return entries
 
 
 def run_spider(credential_list, output_dir):
