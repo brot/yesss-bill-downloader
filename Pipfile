@@ -8,7 +8,7 @@ name = "pypi"
 [packages]
 
 scrapy = "==1.7.4"
-pykeepass = "==3.0.3"
+pykeepass = "==3.1.1"
 
 
 [dev-packages]
