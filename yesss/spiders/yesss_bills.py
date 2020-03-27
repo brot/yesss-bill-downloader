@@ -72,6 +72,6 @@ class YesssBillsSpider(AidaBillsSpider):
         "yesss.at",
     ]
     start_urls = (
-        'https://www.yesss.at/',
+        'https://www.yesss.at/kontomanager.at/index.php',
     )
     request_after_login_url = 'https://www.yesss.at/kontomanager.at/rechnungen.php'
