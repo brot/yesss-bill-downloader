@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import argparse
 import getpass
 import logging
@@ -64,7 +65,7 @@ def get_credentials(keyfile, password):
     try:
         keepass = PyKeePass(keyfile, password=password)
     except CredentialsIntegrityError as except_inst:
-        logger.debug(except_inst)
+        logger.error(except_inst)
         sys.exit(1)
 
     entries = []
