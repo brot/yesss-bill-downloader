@@ -6,26 +6,34 @@ from pathlib import Path
 import os
 import sys
 
+from pydantic import BaseSettings
 from pykeepass import PyKeePass
-from pykeepass.exceptions import CredentialsIntegrityError
+from pykeepass.exceptions import CredentialsError
 
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 
 
-KEYBASE_FILEPATH = os.environ.get('KEYBASE_FILEPATH', '~/keys.kdbx')
-KEYBASE_SEARCH_PATH = os.environ.get('KEYBASE_SEARCH_PATH', 'Allgemein/')
-OUTPUT_PATH = os.environ.get('OUTPUT_PATH', '/tmp/yesss')
+class Settings(BaseSettings):
+    keybase_filepath: str = '~/keys.kdbx'
+    keybase_search_path: str = 'Root/Allgemein/'
+    output_path: str = '/tmp/yesss'
+
+    class Config:
+        env_file = '.env'
+
+
+settings = Settings()
 
 KEEPASS_SEARCH_CRITERIA = [
     {
         'spider_name': 'yesss-bills',
-        'keepass_search_path': KEYBASE_SEARCH_PATH,
+        'keepass_search_path': settings.keybase_search_path,
         'url': 'https://www.yesss.at/kontomanager.php',
     },
     {
         'spider_name': 'simfonie-bills',
-        'keepass_search_path': KEYBASE_SEARCH_PATH,
+        'keepass_search_path': settings.keybase_search_path,
         'url': 'https://simfonie.kontomanager.at/',
     }
 ]
@@ -45,10 +53,10 @@ def parse_args():
     """Parse command line arguments."""
     parser = argparse.ArgumentParser()
     parser.add_argument('--keyfile', dest='keyfile', action='store', required=False,
-                        default=KEYBASE_FILEPATH,
+                        default=settings.keybase_filepath,
                         help='Path of your keepass file. (Default: %(default)s)')
     parser.add_argument('--output', dest='output_dir', action='store', required=False,
-                        default=OUTPUT_PATH,
+                        default=settings.output_path,
                         help='Path to the output directory. (Default: %(default)s)')
     parser.add_argument('-v', '--verbose', dest='verbose', action='store_true', default=False)
     args = parser.parse_args()
@@ -64,7 +72,7 @@ def parse_args():
 def get_credentials(keyfile, password):
     try:
         keepass = PyKeePass(keyfile, password=password)
-    except CredentialsIntegrityError as except_inst:
+    except CredentialsError as except_inst:
         logger.error(except_inst)
         sys.exit(1)
 
