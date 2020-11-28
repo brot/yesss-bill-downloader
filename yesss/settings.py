@@ -8,16 +8,16 @@
 #     http://doc.scrapy.org/en/latest/topics/settings.html
 #
 
-BOT_NAME = 'yesss'
+BOT_NAME = "yesss"
 
-SPIDER_MODULES = ['yesss.spiders']
-NEWSPIDER_MODULE = 'yesss.spiders'
+SPIDER_MODULES = ["yesss.spiders"]
+NEWSPIDER_MODULE = "yesss.spiders"
 
 ITEM_PIPELINES = {
-    'yesss.pipelines.YesssPipeline': 10,
+    "yesss.pipelines.YesssPipeline": 10,
 }
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = 'yesss (+http://www.yourdomain.com)'
 
-BASE_LOCATION = '/tmp/yesss/'
+BASE_LOCATION = "/tmp/yesss/"
