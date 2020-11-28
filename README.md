@@ -18,11 +18,11 @@ The files are stored under /tmp/yesss (could be change by a commandline option o
 ## Prerequisite
 
 * [KeePassXC](https://keepassxc.org/)
-* [pipenv](https://docs.pipenv.org/)
 
 ```
 $ cd yesss-bill-downloader
-$ pipenv --python 3.6 install
+$ python3 -m venv .venv
+$ source .venv/bin/activate
 ```
 
 * Configure your yesss! and/or SIMfonie credentials in your KeePassXC database
@@ -32,5 +32,5 @@ $ pipenv --python 3.6 install
 ## Starting the spider
 
 ```
-$ pipenv run python run.py
+$ python run.py
 ```
