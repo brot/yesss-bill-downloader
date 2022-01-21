@@ -1,5 +1,5 @@
 black==20.8b1
-ipython==7.30.0
+ipython==7.31.1
 scrapy==2.5.1
 pycodestyle==2.8.0
 pydantic[dotenv]==1.8.2
