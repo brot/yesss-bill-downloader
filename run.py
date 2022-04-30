@@ -10,8 +10,9 @@ from pydantic import BaseSettings
 from pykeepass import PyKeePass
 from pykeepass.exceptions import CredentialsError
 
-from scrapy.crawler import CrawlerProcess
+from scrapy.crawler import CrawlerRunner
 from scrapy.utils.project import get_project_settings
+from twisted.internet import reactor
 
 
 class Settings(BaseSettings):
@@ -105,13 +106,17 @@ def get_credentials(keyfile, password):
 def run_spider(credential_list, output_dir):
     project_settings = get_project_settings()
     project_settings.set("BASE_LOCATION", str(Path(output_dir).expanduser()))
-    process = CrawlerProcess(project_settings)
+    runner = CrawlerRunner(project_settings)
 
     for credential in credential_list:
         logger.info(f'Add "{credential["title"]}" with number {credential["username"]} for crawling')
-        process.crawl(credential["spider_name"], username=credential["username"], password=credential["password"])
+        runner.crawl(credential["spider_name"], username=credential["username"], password=credential["password"])
 
-    process.start()
+
+    deferred = runner.join()
+    deferred.addBoth(lambda _: reactor.stop())
+
+    reactor.run()
 
 
 if __name__ == "__main__":
