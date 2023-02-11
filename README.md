@@ -1,6 +1,6 @@
 # yesss! bill downloader
 
-With this (standalone) scrapy (http://scrapy.org/) spider it's possible to automatically download bills (pdf) and call details (pdf+csv)
+With this (standalone) scrapy (http://scrapy.org/) spider it's possible to automatically download bills (pdf) and call details (pdf)
 from https://www.yesss.at + https://www.simfonie.at/ and store it on your local machine.
 
 The files are stored under /tmp/yesss (could be change by a commandline option or a PATH variable) in the following structure
@@ -12,7 +12,6 @@ The files are stored under /tmp/yesss (could be change by a commandline option o
         -- <year>
            -- <date>-rechnung.pdf
            -- <date>-einzelgesprächsnachweis.pdf
-           -- <date>-einzelgesprächsnachweis.csv
 ```
 
 ## Prerequisite

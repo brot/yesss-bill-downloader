@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
-import scrapy
 from datetime import datetime
 
+import scrapy
+
 from yesss.items import YesssBillItem
+
+
+CONSENT_COOKIE = {"CookieSettings": '{"categories":["necessary"]}'}
 
 
 class AidaBillsSpider(scrapy.Spider):
@@ -12,7 +16,7 @@ class AidaBillsSpider(scrapy.Spider):
     request_after_login_url = ""
 
     def __init__(self, username=None, password=None, *args, **kwargs):
-        super(AidaBillsSpider, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.username = username
         self.password = password
 
@@ -23,42 +27,46 @@ class AidaBillsSpider(scrapy.Spider):
 
         return scrapy.FormRequest.from_response(
             response,
-            formname="loginform",
+            formid="loginform",
             formdata={"login_rufnummer": self.username, "login_passwort": self.password},
             callback=self.logged_in,
         )
 
+    def start_requests(self):
+        if not self.start_urls and hasattr(self, "start_url"):
+            raise AttributeError(
+                "Crawling could not start: 'start_urls' not found "
+                "or empty (but found 'start_url' attribute instead, "
+                "did you miss an 's'?)"
+            )
+        for url in self.start_urls:
+            yield scrapy.Request(url, cookies=CONSENT_COOKIE, dont_filter=True)
+
     def logged_in(self, response):
-        return scrapy.Request(self.request_after_login_url, callback=self.parse_bills)
+        # check if login was successful
+        if alert_list := response.xpath('//div[@role="alert"]/p/strong[1]/text()'):
+            self.logger.error("[%s] %s", self.username, alert_list.get())
+            return
+
+        self.logger.info("[%s] Logged in sucessfully and continue on %s", self.username, response.url)
+        return scrapy.Request(self.request_after_login_url, cookies=CONSENT_COOKIE, callback=self.parse_bills)
 
     def parse_bills(self, response):
-        for row in response.xpath("//tbody/tr"):
+        self.logger.info("[%s] Parsing bill table on %s", self.username, response.url)
+        for row in response.xpath('//ul[@class="list-group mt-3"]'):
             bill_item = YesssBillItem()
-            bill_item["date_raw"] = row.xpath('td[contains(@data-title, "Datum")]/text()').extract()[0]
+            bill_item["date_raw"] = row.xpath("li[1]/div/div[2]/text()").get()
             bill_item["date"] = datetime.strptime(bill_item["date_raw"], "%d.%m.%Y")
             bill_item["date_formatted"] = bill_item["date"].strftime("%Y%m%d")
-            bill_item["bill_sum"] = row.xpath('td[contains(@data-title, "Summe")]/text()').extract()[0]
-            bill_item["bill_no"] = row.xpath('td[contains(@data-title, "Nr")]/text()').extract()[0]
-            bill_item["bill_pdf"] = row.xpath('td[contains(@data-title, "Details")]/a/@href').extract()[0]
+            bill_item["bill_sum"] = row.xpath("li[2]/div/div[2]/text()").get()
+            bill_item["bill_no"] = row.xpath("li[3]/div/div[2]/text()").get()
+            bill_item["bill_pdf"] = row.xpath("li[4]/div/div/a/@href").get()
             bill_item["egn_pdf"] = None
-            bill_item["egn_csv"] = None
 
-            egn = row.xpath('td[contains(@data-title, "Einzelgespr")]/a/@href').extract()
-            if egn:
-                bill_item["egn_pdf"] = egn[0]
-                bill_item["egn_csv"] = egn[1]
+            if egn := row.xpath("li[5]/div/div/a/@href").get():
+                bill_item["egn_pdf"] = egn
 
             yield bill_item
-
-
-class SimfonieBillsSpider(AidaBillsSpider):
-    name = "simfonie-bills"
-    allowed_domains = [
-        "kontomanager.at",
-        "simfonie.at",
-    ]
-    start_urls = ("https://simfonie.kontomanager.at/",)
-    request_after_login_url = "https://simfonie.kontomanager.at/rechnungen.php"
 
 
 class YesssBillsSpider(AidaBillsSpider):
@@ -66,5 +74,5 @@ class YesssBillsSpider(AidaBillsSpider):
     allowed_domains = [
         "yesss.at",
     ]
-    start_urls = ("https://www.yesss.at/kontomanager.at/index.php",)
-    request_after_login_url = "https://www.yesss.at/kontomanager.at/rechnungen.php"
+    start_urls = ("https://www.yesss.at/kontomanager.at/app/",)
+    request_after_login_url = "https://www.yesss.at/kontomanager.at/app/rechnungen.php"

@@ -28,18 +28,15 @@ class YesssPipeline(MediaPipeline):
 
         requests = [Request(item["bill_pdf"], meta={"filename": bill_pdf_file})]
         if item["egn_pdf"]:
-
             egn_pdf_file = location_template.format(file=EGN_FILENAME.format(item["date_formatted"], "pdf"))
-            egn_csv_file = location_template.format(file=EGN_FILENAME.format(item["date_formatted"], "csv"))
             requests.append(Request(item["egn_pdf"], meta={"filename": egn_pdf_file}))
-            requests.append(Request(item["egn_csv"], meta={"filename": egn_csv_file}))
         return requests
 
-    def media_to_download(self, request, info):
+    def media_to_download(self, request, info, *, item=None):
         """Check request before starting download"""
         pass
 
-    def media_downloaded(self, response, request, info):
+    def media_downloaded(self, response, request, info, *, item=None):
         """Handler for success downloads"""
         filename = response.meta["filename"]
 

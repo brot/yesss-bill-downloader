@@ -16,4 +16,3 @@ class YesssBillItem(scrapy.Item):
     bill_no = scrapy.Field()
     bill_pdf = scrapy.Field()
     egn_pdf = scrapy.Field()
-    egn_csv = scrapy.Field()

@@ -13,11 +13,13 @@ BOT_NAME = "yesss"
 SPIDER_MODULES = ["yesss.spiders"]
 NEWSPIDER_MODULE = "yesss.spiders"
 
+REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
+
 ITEM_PIPELINES = {
     "yesss.pipelines.YesssPipeline": 10,
 }
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-# USER_AGENT = 'yesss (+http://www.yourdomain.com)'
+USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/109.0"
 
 BASE_LOCATION = "/tmp/yesss/"

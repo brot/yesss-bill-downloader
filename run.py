@@ -32,11 +32,6 @@ KEEPASS_SEARCH_CRITERIA = [
         "keepass_search_path": settings.keybase_search_path,
         "url": "https://www.yesss.at/kontomanager.php",
     },
-    {
-        "spider_name": "simfonie-bills",
-        "keepass_search_path": settings.keybase_search_path,
-        "url": "https://simfonie.kontomanager.at/",
-    },
 ]
 
 logger = None
@@ -111,7 +106,6 @@ def run_spider(credential_list, output_dir):
     for credential in credential_list:
         logger.info(f'Add "{credential["title"]}" with number {credential["username"]} for crawling')
         runner.crawl(credential["spider_name"], username=credential["username"], password=credential["password"])
-
 
     deferred = runner.join()
     deferred.addBoth(lambda _: reactor.stop())
