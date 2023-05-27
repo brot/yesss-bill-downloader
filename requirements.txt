@@ -1,6 +1,6 @@
-black==23.1.0
-ipython==8.10.0
-scrapy==2.8.0
+black==23.3.0
+ipython==8.13.2
+scrapy==2.9.0
 pycodestyle==2.10.0
-pydantic[dotenv]==1.10.4
-pykeepass==4.0.3
+pydantic[dotenv]==1.10.8
+pykeepass==4.0.4
