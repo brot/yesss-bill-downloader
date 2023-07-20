@@ -6,7 +6,7 @@ from pathlib import Path
 import os
 import sys
 
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 from pykeepass import PyKeePass
 from pykeepass.exceptions import CredentialsError
 
