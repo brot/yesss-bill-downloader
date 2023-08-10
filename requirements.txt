@@ -1,7 +1,7 @@
 black==23.7.0
 ipython==8.14.0
-scrapy==2.9.0
-pycodestyle==2.10.0
-pydantic==2.0.3
+scrapy==2.10.0
+pycodestyle==2.11.0
+pydantic==2.1.1
 pydantic-settings==2.0.2
 pykeepass==4.0.5
