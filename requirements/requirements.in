@@ -1,0 +1,9 @@
+scrapy
+pydantic
+pydantic-settings
+pykeepass
+
+# dev requirements
+black
+ipython
+pycodestyle
