@@ -8,10 +8,6 @@ annotated-types==0.5.0 \
     --hash=sha256:47cdc3490d9ac1506ce92c7aaa76c579dc3509ff11e098fc867e5130ab7be802 \
     --hash=sha256:58da39888f92c276ad970249761ebea80ba544b77acddaa1a4d6cf78287d45fd
     # via pydantic
-appnope==0.1.3 \
-    --hash=sha256:02bd91c4de869fbb1e1c50aafc4098827a7a54ab2f39d9dcba6c9547ed920e24 \
-    --hash=sha256:265a455292d0bd8a72453494fa24df5a11eb18373a60c7c0430889f22548605e
-    # via ipython
 argon2-cffi==23.1.0 \
     --hash=sha256:879c3e79a2729ce768ebb7d36d4609e3a78a4ca2ec3a9f12286ca057e3d0db08 \
     --hash=sha256:c670642b78ba29641818ab2e68bd4e6a78ba53b7eff7b4c3815ae16abf91c7ea
@@ -81,7 +77,7 @@ black==23.7.0 \
     --hash=sha256:c333286dc3ddca6fdff74670b911cccedacb4ef0a60b34e491b8a67c833b343a \
     --hash=sha256:f9062af71c59c004cd519e2fb8f5d25d39e46d3af011b41ab43b9c74e27e236f \
     --hash=sha256:fb074d8b213749fa1d077d630db0d5f8cc3b2ae63587ad4116e8a436e9bbe995
-    # via -r requirements/requirements.in
+    # via -r requirements.in
 certifi==2023.7.22 \
     --hash=sha256:539cc1d13202e33ca466e88b2807e29f4c13049d6d87031a3c110744495cb082 \
     --hash=sha256:92d6037539857d8206b8f6ae472e8b77db8058fec5937a1ef3f54304089edbb9
@@ -306,7 +302,7 @@ incremental==22.10.0 \
 ipython==8.14.0 \
     --hash=sha256:1d197b907b6ba441b692c48cf2a3a2de280dc0ac91a3405b39349a50272ca0a1 \
     --hash=sha256:248aca623f5c99a6635bc3857677b7320b9b8039f99f070ee0d20a5ca5a8e6bf
-    # via -r requirements/requirements.in
+    # via -r requirements.in
 itemadapter==0.8.0 \
     --hash=sha256:2ac1fbcc363b789a18639935ca322e50a65a0a7dfdd8d973c34e2c468e6c0f94 \
     --hash=sha256:77758485fb0ac10730d4b131363e37d65cb8db2450bfec7a57c3f3271f4a48a9
@@ -494,7 +490,7 @@ pyasn1-modules==0.3.0 \
 pycodestyle==2.11.0 \
     --hash=sha256:259bcc17857d8a8b3b4a2327324b79e5f020a13c16074670f9c8c8f872ea76d0 \
     --hash=sha256:5d1013ba8dc7895b548be5afb05740ca82454fd899971563d2ef625d090326f8
-    # via -r requirements/requirements.in
+    # via -r requirements.in
 pycparser==2.21 \
     --hash=sha256:8ee45429555515e1f6b185e78100aea234072576aa43ab53aefcae078162fca9 \
     --hash=sha256:e644fdec12f7872f86c58ff790da456218b10f863970249516d60a5eaca77206
@@ -537,7 +533,7 @@ pydantic==2.3.0 \
     --hash=sha256:1607cc106602284cd4a00882986570472f193fde9cb1259bceeaedb26aa79a6d \
     --hash=sha256:45b5e446c6dfaad9444819a293b921a40e1db1aa61ea08aede0522529ce90e81
     # via
-    #   -r requirements/requirements.in
+    #   -r requirements.in
     #   pydantic-settings
 pydantic-core==2.6.3 \
     --hash=sha256:002d0ea50e17ed982c2d65b480bd975fc41086a5a2f9c924ef8fc54419d1dea3 \
@@ -650,7 +646,7 @@ pydantic-core==2.6.3 \
 pydantic-settings==2.0.3 \
     --hash=sha256:962dc3672495aad6ae96a4390fac7e593591e144625e5112d359f8f67fb75945 \
     --hash=sha256:ddd907b066622bd67603b75e2ff791875540dc485b7307c4fffc015719da8625
-    # via -r requirements/requirements.in
+    # via -r requirements.in
 pydispatcher==2.0.7 \
     --hash=sha256:96543bea04115ffde08f851e1d45cacbfd1ee866ac42127d9b476dc5aefa7de0 \
     --hash=sha256:b777c6ad080dc1bad74a4c29d6a46914fa6701ac70f94b0d66fbcfde62f5be31
@@ -661,7 +657,7 @@ pygments==2.16.1 \
     # via ipython
 pykeepass==4.0.6 \
     --hash=sha256:d19cc8349084e4b37eb2d9338f5fde99611c4184fa9d71d31d796356488ef548
-    # via -r requirements/requirements.in
+    # via -r requirements.in
 pyopenssl==23.2.0 \
     --hash=sha256:24f0dc5227396b3e831f4c7f602b950a5e9833d292c8e4a2e06b709292806ae2 \
     --hash=sha256:276f931f55a452e7dea69c7173e984eb2a4407ce413c918aa34b55f82f9b8bac
@@ -691,7 +687,7 @@ requests-file==1.5.1 \
 scrapy==2.10.0 \
     --hash=sha256:4e16a33fc8c03a58bdf4e8d4bdca1f867354eac69ccf573658c7ff34fa0cae39 \
     --hash=sha256:e6a44469eb4846a44f6c573f7d4110afbf8f4ed87775c22b4b04110924581d13
-    # via -r requirements/requirements.in
+    # via -r requirements.in
 service-identity==23.1.0 \
     --hash=sha256:87415a691d52fcad954a500cb81f424d0273f8e7e3ee7d766128f4575080f383 \
     --hash=sha256:ecb33cd96307755041e978ab14f8b14e13b40f1fbd525a4dc78f46d2b986431d
@@ -729,9 +725,9 @@ typing-extensions==4.7.1 \
     #   pydantic
     #   pydantic-core
     #   twisted
-urllib3==2.0.4 \
-    --hash=sha256:8d22f86aae8ef5e410d4f539fde9ce6b2113a001bb4d189e0aed70642d602b11 \
-    --hash=sha256:de7df1803967d2c2a98e4b11bb7d6bd9210474c46e8a0401514e3a42a75ebde4
+urllib3==2.0.6 \
+    --hash=sha256:7a7c7003b000adf9e7ca2a377c9688bbc54ed41b985789ed576570342a375cd2 \
+    --hash=sha256:b19e1a85d206b56d7df1d5e683df4a7725252a964e3993648dd0fb5a1c157564
     # via requests
 w3lib==2.1.2 \
     --hash=sha256:c4432926e739caa8e3f49f5de783f336df563d9490416aebd5d39fb896d264e7 \
