@@ -263,9 +263,9 @@ idna==3.7 \
     #   hyperlink
     #   requests
     #   tldextract
-incremental==24.7.1 \
-    --hash=sha256:a3717c20534499835555ba727b32ee087945ba9daaf23851471dfe3d1e3d1698 \
-    --hash=sha256:fdec6e533d06fd5497080fad4d8b78416c98801588551c9e620409940e8745f7
+incremental==24.7.2 \
+    --hash=sha256:8cb2c3431530bec48ad70513931a760f446ad6c25e8333ca5d95e24b0ed7b8fe \
+    --hash=sha256:fb4f1d47ee60efe87d4f6f0ebb5f70b9760db2b2574c59c8e8912be4ebd464c9
     # via twisted
 itemadapter==0.9.0 \
     --hash=sha256:cfd108c9d5205d056fcac402ec8f8e9d799ce9066911eec1cd521ea442f87af1 \
@@ -599,9 +599,9 @@ pydispatcher==2.0.7 \
     --hash=sha256:96543bea04115ffde08f851e1d45cacbfd1ee866ac42127d9b476dc5aefa7de0 \
     --hash=sha256:b777c6ad080dc1bad74a4c29d6a46914fa6701ac70f94b0d66fbcfde62f5be31
     # via scrapy
-pykeepass==4.1.0 \
-    --hash=sha256:8d376cefe520695154a6a1bfaf34e36cfe8c606b0923d13335390ce38daee62a \
-    --hash=sha256:bf4ee2a4d13a7f1d54938a0813c1b73a05196ca3029c2fe218dc4383144734c9
+pykeepass==4.1.0.post1 \
+    --hash=sha256:dfc59734824eb7bb9fb57ddd3cada9fcc4faf74f718d2c3876be2f00ed69980a \
+    --hash=sha256:e51fb95639ef01fb9bda679b29edabe896bb4def6958acabc4b9bf375d27571d
     # via -r requirements/requirements.in
 pyopenssl==24.2.1 \
     --hash=sha256:4247f0dbe3748d560dcbb2ff3ea01af0f9a1a001ef5f7c4c647956ed8cbf0e95 \
