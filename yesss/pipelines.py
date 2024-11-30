@@ -5,21 +5,24 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 import os
+from typing import Any, NoReturn
 
-from scrapy.pipelines.media import MediaPipeline
 from scrapy.exceptions import DropItem
-from scrapy.http import Request
+from scrapy.http import Request, Response
+from scrapy.pipelines.media import FileInfo, MediaPipeline
+from twisted.internet.defer import Deferred
+from twisted.python.failure import Failure
 
 BILL_FILENAME = "{}-rechnung.pdf"
 EGN_FILENAME = "{}-einzelverbindungsnachweis.{}"
 
 
 class YesssPipeline(MediaPipeline):
-    def get_media_requests(self, item, info):
+    def get_media_requests(self, item: Any, info: MediaPipeline.SpiderInfo) -> list[Request]:
         """Returns the media requests to download"""
-        username = self.spiderinfo.spider.username
+        username = info.spider.username
         year = item["date"].strftime("%Y")
-        base_location = self.spiderinfo.spider.settings.get("BASE_LOCATION", "/tmp/yesss/")
+        base_location = info.spider.settings.get("BASE_LOCATION", "/tmp/yesss/")
         location_template = f"{base_location}/{username}/{year}/{{file}}"
 
         bill_pdf_file = location_template.format(file=BILL_FILENAME.format(item["date_formatted"]))
@@ -32,11 +35,17 @@ class YesssPipeline(MediaPipeline):
             requests.append(Request(item["egn_pdf"], meta={"filename": egn_pdf_file}))
         return requests
 
-    def media_to_download(self, request, info, *, item=None):
+    def media_to_download(
+        self, request: Request, info: MediaPipeline.SpiderInfo, *, item: Any = None
+    ) -> Deferred[FileInfo | None]:
         """Check request before starting download"""
-        pass
+        ...
 
-    def media_downloaded(self, response, request, info, *, item=None):
+    def media_failed(self, failure: Failure, request: Request, info: MediaPipeline.SpiderInfo) -> NoReturn: ...
+
+    def media_downloaded(
+        self, response, request: Request, info: MediaPipeline.SpiderInfo, *, item: Any = None
+    ) -> FileInfo:
         """Handler for success downloads"""
         filename = response.meta["filename"]
 
@@ -46,3 +55,12 @@ class YesssPipeline(MediaPipeline):
 
         with open(filename, "wb") as fileobj:
             fileobj.write(response.body)
+
+    def file_path(
+        self,
+        request: Request,
+        response: Response | None = None,
+        info: MediaPipeline.SpiderInfo | None = None,
+        *,
+        item: Any = None,
+    ) -> str: ...
