@@ -2,14 +2,13 @@
 import argparse
 import getpass
 import logging
-from pathlib import Path
 import os
 import sys
+from pathlib import Path
 
 from pydantic_settings import BaseSettings
 from pykeepass import PyKeePass
 from pykeepass.exceptions import CredentialsError
-
 from scrapy.crawler import CrawlerRunner
 from scrapy.utils.project import get_project_settings
 from twisted.internet import reactor

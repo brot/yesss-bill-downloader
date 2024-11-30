@@ -5,7 +5,6 @@ import scrapy
 
 from yesss.items import YesssBillItem
 
-
 CONSENT_COOKIE = {"CookieSettings": '{"categories":["necessary"]}'}
 
 
