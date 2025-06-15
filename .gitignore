@@ -1,4 +1,7 @@
+__pycache__/
 .direnv
 .env
+.ruff_cache/
 .venv
 .vscode
+*.pyc

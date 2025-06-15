@@ -1,7 +1,0 @@
-scrapy
-pydantic
-pydantic-settings
-pykeepass
-
-# dev requirements
-ruff
