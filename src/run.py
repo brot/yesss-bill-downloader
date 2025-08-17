@@ -2,16 +2,14 @@
 import argparse
 import getpass
 import logging
-import os
 import sys
 from pathlib import Path
 
 from pydantic_settings import BaseSettings
 from pykeepass import PyKeePass
 from pykeepass.exceptions import CredentialsError
-from scrapy.crawler import CrawlerRunner
+from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
-from twisted.internet import reactor
 
 
 class Settings(BaseSettings):
@@ -33,7 +31,6 @@ KEEPASS_SEARCH_CRITERIA = [
     },
 ]
 
-logger = None
 
 
 class Password(argparse.Action):
@@ -63,6 +60,14 @@ def parse_args():
         default=settings.output_path,
         help="Path to the output directory. (Default: %(default)s)",
     )
+    parser.add_argument(
+        "-p",
+        "--password",
+        dest="password",
+        action="store",
+        default=None,
+        help="Password for the keepass file. If not provided, you will be prompted.",
+    )
     parser.add_argument("-v", "--verbose", dest="verbose", action="store_true", default=False)
     args = parser.parse_args()
 
@@ -75,6 +80,7 @@ def parse_args():
 
 
 def get_credentials(keyfile, password):
+    logger = logging.getLogger("yesss-bills")
     try:
         keepass = PyKeePass(keyfile, password=password)
     except CredentialsError as except_inst:
@@ -98,28 +104,38 @@ def get_credentials(keyfile, password):
 
 
 def run_spider(credential_list, output_dir):
+    logger = logging.getLogger("yesss-bills")
     project_settings = get_project_settings()
     project_settings.set("BASE_LOCATION", str(Path(output_dir).expanduser()))
-    runner = CrawlerRunner(project_settings)
+    process = CrawlerProcess(project_settings)
 
     for credential in credential_list:
         logger.info(f'Add "{credential["title"]}" with number {credential["username"]} for crawling')
-        runner.crawl(credential["spider_name"], username=credential["username"], password=credential["password"])
+        process.crawl(credential["spider_name"], username=credential["username"], password=credential["password"])
 
-    deferred = runner.join()
-    deferred.addBoth(lambda _: reactor.stop())
-
-    reactor.run()
+    # The script will block here until all crawling jobs are finished
+    process.start()
 
 
-if __name__ == "__main__":
+def main():
     args = parse_args()
 
     logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO)
-    logger = logging.getLogger("yesss-bills")
+    logger = logging.getLogger("yesss-bills")  # Configure root logger for the app
     logger.debug(args)
 
-    password = getpass.getpass()
+    password = args.password or getpass.getpass("KeePass Password: ")
 
-    credential_list = get_credentials(args.keyfile, password)
-    run_spider(credential_list, args.output_dir)
+    try:
+        credential_list = get_credentials(args.keyfile, password)
+        if credential_list:
+            run_spider(credential_list, args.output_dir)
+        else:
+            logger.warning("No credentials found for the specified criteria. Nothing to do.")
+    except CredentialsError:
+        # The error is already logged in get_credentials, so we can exit gracefully.
+        pass
+
+
+if __name__ == "__main__":
+    main()
