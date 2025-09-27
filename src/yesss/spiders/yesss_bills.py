@@ -73,5 +73,5 @@ class YesssBillsSpider(AidaBillsSpider):
     allowed_domains = [
         "yesss.at",
     ]
-    start_urls = ("https://www.yesss.at/kontomanager.at/app/",)
-    request_after_login_url = "https://www.yesss.at/kontomanager.at/app/rechnungen.php"
+    start_urls = ("https://login.yesss.at/app/index.php",)
+    request_after_login_url = "https://login.yesss.at/app/rechnungen.php"
