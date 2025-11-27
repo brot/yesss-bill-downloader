@@ -5,7 +5,7 @@ import logging
 import sys
 from pathlib import Path
 
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from pykeepass import PyKeePass
 from pykeepass.exceptions import CredentialsError
 from scrapy.crawler import CrawlerProcess
@@ -17,8 +17,7 @@ class Settings(BaseSettings):
     keybase_search_path: str = "Root/Allgemein/"
     output_path: str = "/tmp/yesss"
 
-    class Config:
-        env_file = ".env"
+    model_config = SettingsConfigDict(env_file=".env")
 
 
 settings = Settings()
@@ -30,7 +29,6 @@ KEEPASS_SEARCH_CRITERIA = [
         "url": "https://www.yesss.at/kontomanager.php",
     },
 ]
-
 
 
 class Password(argparse.Action):
