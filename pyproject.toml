@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Download bills from yesss.at"
 requires-python = ">=3.12"
 dependencies = [
-    "scrapy>=2.13.4",
+    "scrapy>=2.14.1",
     "pydantic>=2.11.0",
     "pydantic-settings>=2.8.1",
     "pykeepass>=4.1.1.post1",
