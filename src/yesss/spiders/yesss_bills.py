@@ -2,6 +2,7 @@
 from datetime import datetime
 
 import scrapy
+from form2request import form2request
 
 from yesss.items import YesssBillItem
 
@@ -20,16 +21,28 @@ class AidaBillsSpider(scrapy.Spider):
         self.password = password
 
     def parse(self, response):
+        if "datenschutz" in response.url or response.xpath("//button[contains(text(), 'Alle ablehnen')]"):
+            self.logger.info("Landing page is Datenschutz. Rejecting policy first...")
+
+            form = response.css("form")
+            reject = form.css('button[name="accept-necessary"]')
+            request_data = form2request(form, click=reject)
+            yield request_data.to_scrapy(callback=self.parse_login, dont_filter=True)
+        else:
+            yield from self.parse_login(response)
+
+    def parse_login(self, response):
         if self.username is None or self.password is None:
             self.log("Username or password not provided!", level=scrapy.log.ERROR)
             return
 
-        return scrapy.FormRequest.from_response(
-            response,
-            formid="loginform",
-            formdata={"login_rufnummer": self.username, "login_passwort": self.password},
-            callback=self.logged_in,
-        )
+        form = response.css("form#loginform")
+        if not form:
+            self.logger.warning("No login form found on page. Available forms: %s", response.css("form").getall())
+            return
+
+        request_data = form2request(form, data={"login_rufnummer": self.username, "login_passwort": self.password})
+        yield request_data.to_scrapy(callback=self.logged_in)
 
     def start_requests(self):
         if not self.start_urls and hasattr(self, "start_url"):
@@ -48,7 +61,7 @@ class AidaBillsSpider(scrapy.Spider):
             return
 
         self.logger.info("[%s] Logged in sucessfully and continue on %s", self.username, response.url)
-        return scrapy.Request(self.request_after_login_url, cookies=CONSENT_COOKIE, callback=self.parse_bills)
+        yield scrapy.Request(self.request_after_login_url, callback=self.parse_bills, dont_filter=True)
 
     def parse_bills(self, response):
         self.logger.info("[%s] Parsing bill table on %s", self.username, response.url)
